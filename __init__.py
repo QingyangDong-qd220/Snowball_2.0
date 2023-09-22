@@ -2,11 +2,6 @@
 """
 Relex package 
 
-For performing semi-supervised chemical Relationship Extraction using the Snowball Algorithm
-
-This package is still under development, please use it for beta testing only and notify myself of any bugs
-
-cc889
 """
 
 from __future__ import absolute_import
@@ -23,12 +18,12 @@ from .cluster import Cluster
 from .pattern import Pattern
 
 
-__title__ = 'ChemDataExtractor'
-__version__ = '1.4.0'
-__author__ = 'Callum Court'
-__email__ = 'cc889@cam.ac.uk'
-__license__ = 'MIT'
-__copyright__ = 'Copyright 2017 Matt Swain and contributors'
+# __title__ = 'ChemDataExtractor'
+# __version__ = '1.4.0'
+# __author__ = 'Callum Court'
+# __email__ = 'cc889@cam.ac.uk'
+# __license__ = 'MIT'
+# __copyright__ = 'Copyright 2017 Matt Swain and contributors'
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
