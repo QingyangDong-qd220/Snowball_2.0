@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Relex package 
+This file is no longer needed in Snowball 2.0
 
 """
 
