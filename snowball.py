@@ -289,12 +289,13 @@ class Snowball(BaseSentenceParser):
             self -- A Snowball Instance
         """
 
+        print('Loading model from existing file')
         # return joblib.load(path)
         with open(path, 'rb') as f:
             return pickle.load(f)
 
 
-    def import_data(self, path, confidence_limit=1.0):
+    def import_from_model(self, path, confidence_limit=1.0):
 
         """
         Import / copy all labeled phrases from another Snowball model to the current one
@@ -337,6 +338,63 @@ class Snowball(BaseSentenceParser):
         
         self.save()
         print('Loaded {} phrases from: {}.\n'.format(i, other_model.file_name))
+
+        return
+
+    
+    def import_from_list(self, path, confidence_limit=1.0):
+
+        """
+        Import / copy all labeled phrases from a list of phrases to the current model
+        This method is more robust against version conflicts between ChemDataExtractor and Snowball
+
+        Arguments:
+            path {str} -- path to the Snowball pkl file
+            confidence_limit {float} -- only import phrases with confidence score equal or greater than this value
+        """
+
+        with open(path, 'rb') as f:
+            other_list = pickle.load(f)
+        
+        print(f'Importing labelled sentences from {path}.')
+
+        i = 0
+        for p in other_list:
+            if p.confidence >= confidence_limit:
+                p.label = str(self.num_of_phrases)
+                p.cluster_label = None
+                p.main_cluster_label = None
+                if p.prefix_length != self.prefix_length or p.suffix_length != self.suffix_length:
+                    p.reset_elements(self.prefix_length, self.suffix_length)
+                self.phrases.append(p)
+                i += 1
+
+        self.save()
+        print('Loaded {} phrases from: {}.\n'.format(i, path))
+        return
+
+
+    def export_to_list(self, path):
+
+        """
+        write all phrases (including the ones assigned into clusters) to a list file,
+        so that labelled sentences can be imported by other models
+
+        Arguments:
+            path {str} -- path to the pkl file
+        """
+
+        # temp_model = copy.copy(self)
+        phrase_list = copy.copy(self.phrases)
+        for c in self.clusters:
+            for p in c.phrases:
+                temp = copy.copy(p)
+                temp.cluster_label = None
+                phrase_list.phrases.append(temp)
+
+        with open(path, 'wb') as f:
+            pickle.dump(phrase_list, f)
+        print(f'Saved {len(phrase_list)} phrases to {path}.')
 
         return
 
