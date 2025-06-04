@@ -7,3 +7,4 @@ Labelled phrases trained from band-gap sentences are provided in the BandgapTemp
 
 Known bug: there must not be any spaces in "raw_units". 
 Hotfix: remove the spaces in the units before passing the text to the Snowball model. 
+[![DOI](https://zenodo.org/badge/694649614.svg)](https://doi.org/10.5281/zenodo.15589129)
